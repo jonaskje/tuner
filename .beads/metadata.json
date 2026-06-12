@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "tuner",
+  "project_id": "22fe45db-5004-4c00-9d16-6129e4c70644"
+}

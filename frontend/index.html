@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Guitar Tuner</title>
+</head>
+<body>
+<div id="app">
+    <header class="menubar">
+        <div class="brand">
+            <svg class="fork" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <path d="M8 3v7a4 4 0 0 0 8 0V3" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round"/>
+                <path d="M12 14v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Guitar&nbsp;Tuner</span>
+        </div>
+        <div class="menu-actions">
+            <button id="freezeBtn" class="btn ghost" title="Freeze the current waveform for comparison">
+                <span class="snow">❄</span> Freeze
+            </button>
+            <button id="inputBtn" class="btn input-btn" title="Choose input device">
+                <span class="dot" id="inputDot"></span>
+                <span id="inputLabel">No input</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="stage">
+        <section class="strings" id="strings"></section>
+
+        <section class="tuning">
+            <canvas id="tuningCanvas"></canvas>
+        </section>
+
+        <section class="scope">
+            <canvas id="scopeCanvas"></canvas>
+            <div class="readout" id="readout">
+                <div class="rd-note" id="rdNote">—</div>
+                <div class="rd-cents" id="rdCents"></div>
+                <div class="rd-freq" id="rdFreq">no signal</div>
+            </div>
+            <div class="frozen-badge" id="frozenBadge" hidden>❄ FROZEN REFERENCE</div>
+        </section>
+    </main>
+
+    <div class="modal-backdrop" id="modal" hidden>
+        <div class="modal">
+            <h2>Select input</h2>
+            <p class="modal-sub" id="modalSub">Choose a sound input device and channel.</p>
+            <div class="device-list" id="deviceList"></div>
+            <div class="channel-block" id="channelBlock" hidden>
+                <div class="channel-title">Input channel</div>
+                <div class="chips" id="channelRow"></div>
+            </div>
+            <div class="modal-error" id="modalError" hidden></div>
+            <div class="modal-actions">
+                <button class="btn ghost" id="cancelBtn">Cancel</button>
+                <button class="btn primary" id="useBtn" disabled>Use input</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./src/main.js" type="module"></script>
+</body>
+</html>

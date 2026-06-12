@@ -1,0 +1,13 @@
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+
+# Build artifacts
+build/bin
+node_modules
+frontend/dist
+frontend/wailsjs
+
+# Stray binary from `go build ./...`
+/tuner.exe
