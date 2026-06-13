@@ -11,3 +11,7 @@ frontend/wailsjs
 
 # Stray binary from `go build ./...`
 /tuner.exe
+
+# Kept locally, excluded from version control
+/AGENTS.md
+/.beads/
