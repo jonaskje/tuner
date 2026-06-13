@@ -250,8 +250,11 @@ function drawScope(live) {
     const ctx = scopeCtx;
     ctx.clearRect(0, 0, w, h);
 
-    const y0 = h / 2;
-    const amp = h * 0.40;
+    // Reserve a band at the top for the readout text so the waveform never
+    // draws over it; centre the trace in the remaining area.
+    const header = 52;
+    const y0 = header + (h - header) / 2;
+    const amp = ((h - header) / 2) * 0.86;
 
     // center axis
     ctx.strokeStyle = 'rgba(255,255,255,0.07)';
@@ -322,8 +325,8 @@ function drawStarts(ctx, wave, pxPerPoint, w, y0, color) {
             const x = i * pxPerPoint;
             if (x > w) break;
             ctx.beginPath();
-            ctx.moveTo(x, y0 - 7);
-            ctx.lineTo(x, y0 + 7);
+            ctx.moveTo(x, y0 - 28);
+            ctx.lineTo(x, y0 + 28);
             ctx.stroke();
         }
     }

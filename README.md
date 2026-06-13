@@ -25,3 +25,7 @@ wails build    # produce build/bin/tuner.exe
 - **Waveform pane** shows the note band-pass filtered to a clean sine, scaled to four waves.
 - **Freeze** (button or **Spacebar**) locks the current wave as a dim reference at a fixed
   scale — play against it to match pitch or octaves (a 2× note draws twice as dense).
+
+## License
+
+[MIT](LICENSE)

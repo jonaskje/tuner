@@ -229,15 +229,17 @@ body {
 .scope .readout {
     position: absolute;
     top: 14px;
-    left: 16px;
+    left: 18px;
+    right: 160px; /* stay clear of the frozen badge */
     pointer-events: none;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 14px;
 }
 
 .rd-note {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 800;
     line-height: 1;
     color: var(--text);
@@ -249,11 +251,10 @@ body {
 }
 
 .rd-cents {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     color: var(--muted);
-    height: 18px;
 }
 
 .rd-cents.sharp { color: var(--amber); }
@@ -261,9 +262,9 @@ body {
 .rd-cents.intune { color: var(--green-bright); text-shadow: 0 0 12px rgba(93,240,168,0.7); }
 
 .rd-freq {
-    font-size: 12.5px;
+    font-size: 18px;
     font-weight: 600;
-    color: var(--muted-2);
+    color: #9aa7b3;
     font-variant-numeric: tabular-nums;
 }
 
