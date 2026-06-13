@@ -1,53 +1,27 @@
 # Guitar Tuner
 
-A sleek desktop guitar tuner built with **Go + [Wails](https://wails.io)**. It captures
-audio from a chosen input device/channel via WASAPI, tracks the dominant pitch with the
-**YIN** algorithm, and visualizes tuning and the live waveform on an oscilloscope-style display.
+A sleek desktop guitar tuner built with **Go + [Wails](https://wails.io)**. Captures audio
+via WASAPI, tracks pitch with the YIN algorithm, and shows tuning and a live oscilloscope.
 
-## Features
-
-- **Input selection** — pick any capture device *and* a specific input channel (e.g. Input 1 / Input 2
-  on a Focusrite Scarlett). The choice is saved and reused on the next launch.
-- **Auto re-prompt** — if the saved device is unavailable on startup (or is unplugged while running),
-  the input dialog opens automatically.
-- **Strings column** — `E B G D A E` in large, dimmed-green letters with their target frequencies.
-  The matching string lights up and blooms green when in tune.
-- **Tuning pane** — a center "perfect" bar with a moving deviation line; within ±5 cents the bar
-  glows green.
-- **Waveform pane** — an oscilloscope triggered on a positive-going zero crossing, scaled to show
-  exactly four waves of the tracked note, with a tick at the start of each wave.
-- **Freeze** — locks the current waveform as a dim reference and the horizontal scale, so a live note
-  can be slid against it (e.g. matching an octave by aligning crossings).
-
-## Architecture
-
-| File | Responsibility |
-|------|----------------|
-| `audio.go` | WASAPI capture (go-wca/go-ole): device enumeration, channel extraction, ring buffer |
-| `pitch.go` | YIN pitch detection (difference function, CMND, threshold, parabolic interpolation) |
-| `waveform.go` | Oscilloscope window extraction (trigger, normalize, decimate) |
-| `config.go` | Persisted device/channel selection under the user config dir |
-| `app.go` | Wails-bound API + the ~60 fps analysis loop that emits `frame` events |
-| `frontend/` | Vanilla JS + Canvas UI (strings, tuning pane, waveform, device dialog) |
-
-Config is stored at `%AppData%\GuitarTuner\config.json` on Windows.
-
-## Develop
-
-```bash
-wails dev      # hot-reload dev server
-```
+![Guitar Tuner](docs/screenshot.png)
 
 ## Build
 
-```bash
-wails build    # produces build/bin/tuner.exe
-```
-
-## Test
+Requires [Go](https://go.dev) and the [Wails CLI](https://wails.io/docs/gettingstarted/installation)
+(`go install github.com/wailsapp/wails/v2/cmd/wails@latest`).
 
 ```bash
-go test ./...  # pitch accuracy, waveform trigger, device enumeration, capture smoke test
+wails dev      # run with hot reload
+wails build    # produce build/bin/tuner.exe
 ```
 
-> Note: WASAPI capture is Windows-only; the audio backend builds and runs on Windows.
+## Use
+
+- **First launch** asks for a sound input device and channel (e.g. Input 1/2 on a Focusrite).
+  The choice is saved and reused; change it any time from the button in the top-right menu.
+  If the saved device is missing, the picker reopens automatically.
+- **Play a string.** The matching letter (`E B G D A E`) lights up and the tuning pane's
+  center bar glows green when you're within ±5 cents.
+- **Waveform pane** shows the note band-pass filtered to a clean sine, scaled to four waves.
+- **Freeze** (button or **Spacebar**) locks the current wave as a dim reference at a fixed
+  scale — play against it to match pitch or octaves (a 2× note draws twice as dense).
