@@ -77,6 +77,20 @@ function nearestString(freq) {
     return { index, cents, abs: bestAbs };
 }
 
+const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+// nearestNote returns the closest equal-tempered note (A4 = 440 Hz) as a name,
+// octave, and signed cents deviation — e.g. { name: 'C', octave: 4, cents: -3.2 }.
+function nearestNote(freq) {
+    const midi = 69 + 12 * Math.log2(freq / 440);
+    const m = Math.round(midi);
+    return {
+        name: NOTE_NAMES[((m % 12) + 12) % 12],
+        octave: Math.floor(m / 12) - 1,
+        cents: (midi - m) * 100,
+    };
+}
+
 // ---------- canvas sizing (HiDPI) ----------
 const sizes = { tuning: { w: 0, h: 0 }, scope: { w: 0, h: 0 } };
 
@@ -138,22 +152,17 @@ function updateStrings(live) {
 }
 
 function updateReadout(live) {
-    if (live && state.index >= 0) {
-        const s = STRINGS[state.index];
-        rdNote.textContent = `${s.name}${s.oct}`;
+    if (live && state.freq > 0) {
+        // Closest actual note in equal temperament (not limited to the strings).
+        const n = nearestNote(state.freq);
+        rdNote.textContent = `${n.name}${n.octave}`;
         rdNote.classList.remove('dim');
         rdFreq.textContent = `${state.freq.toFixed(1)} Hz`;
 
-        const c = state.cents;
+        const c = n.cents;
         const inTune = Math.abs(c) <= IN_TUNE_CENTS;
         rdCents.textContent = `${c >= 0 ? '+' : '−'}${Math.abs(c).toFixed(1)}¢`;
         rdCents.className = 'rd-cents ' + (inTune ? 'intune' : (c > 0 ? 'sharp' : 'flat'));
-    } else if (live) {
-        rdNote.textContent = state.freq ? `${state.freq.toFixed(1)} Hz` : '—';
-        rdNote.classList.add('dim');
-        rdCents.textContent = '';
-        rdCents.className = 'rd-cents';
-        rdFreq.textContent = 'out of range';
     } else {
         rdNote.textContent = '—';
         rdNote.classList.add('dim');
